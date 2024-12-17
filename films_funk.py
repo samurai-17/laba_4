@@ -15,7 +15,9 @@ def get_actor(name):
     idd = a["docs"][0]["id"]
     new_url = f"https://api.kinopoisk.dev/v1.4/person/awards?personId={idd}"
     a = requests.get(new_url, headers=headers).json()
-    return a["docs"][0]["nomination"]
+    award = a["docs"][0]["nomination"]["award"]["title"]
+    year = a["docs"][0]["nomination"]["award"]["year"]
+    return f"Награда: {award}\nГод: {year}"
 
 
 def get_film(name):

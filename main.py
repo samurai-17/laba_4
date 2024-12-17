@@ -27,6 +27,8 @@ dp.include_router(router)
 
 class NameFilm(StatesGroup):
     name = State()
+    new = State()
+    last = State()
 
 @router.message(Command(commands='start'))
 async def start(message: Message):
@@ -58,6 +60,37 @@ async def desc(message: Message, state: FSMContext):
     data = await state.get_data()
     des, kp = get_describe(data['name'])
     await message.answer(f"Описание: {des}\nРейтинг кинопоиска: {kp}")
+    await state.clear()
+
+
+@router.message(F.text == "Узнать награды актеров")
+async def awards(message: Message, state: FSMContext):
+    await state.set_state(NameFilm.new)
+    await message.answer("Введите имя актера")
+
+
+@router.message(NameFilm.new)
+async def aw(message: Message, state: FSMContext):
+    await state.update_data(name=message.text)
+    data = await state.get_data()
+    a = get_actor(data['name'])
+    await message.answer(a)
+    await state.clear()
+
+
+@router.message(F.text == "Получить ссылку на фильм")
+async def link(message: Message, state: FSMContext):
+    await state.set_state(NameFilm.last)
+    await message.answer("Введите название фильма")
+
+
+@router.message(NameFilm.last)
+async def li(message: Message, state: FSMContext):
+    await state.update_data(name=message.text)
+    data = await state.get_data()
+    a = get_film(data)
+    print(a)
+    await message.answer(a)
     await state.clear()
 
 
