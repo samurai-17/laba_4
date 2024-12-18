@@ -1,15 +1,9 @@
 """
-описание фильма и узнать рейтинг фильма
-получить инфо по актерам
-получить ссылку на фильм
 ?фильмы по жанрам?
 """
-
 from aiogram import Bot, Dispatcher, F, Router
 from aiogram.filters import Command
-from aiogram.types import Message, KeyboardButton, ReplyKeyboardMarkup, ReplyKeyboardRemove
-
-import films_funk
+from aiogram.types import Message, KeyboardButton, ReplyKeyboardMarkup
 from config import load_config
 from films_funk import *
 from aiogram.fsm.state import State, StatesGroup
@@ -30,11 +24,12 @@ class NameFilm(StatesGroup):
     new = State()
     last = State()
 
+
 @router.message(Command(commands='start'))
 async def start(message: Message):
     btn1 = KeyboardButton(text="Начать поиск!")
     keyboard = ReplyKeyboardMarkup(keyboard=[[btn1]])
-    await message.answer("Привет!\nНажми на кнопку 'Начать поиск', чтобы начать меня абьюзить!",
+    await message.answer("Привет!\nНажми на кнопку 'Начать поиск', чтобы начать меня использовать!",
                          reply_markup=keyboard)
 
 
