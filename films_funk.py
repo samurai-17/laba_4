@@ -10,14 +10,19 @@ def get_describe(name):
 
 
 def get_actor(name):
-    url = f"https://api.kinopoisk.dev/v1.4/person/search?query={name}"
-    a = requests.get(url, headers=headers).json()
-    idd = a["docs"][0]["id"]
-    new_url = f"https://api.kinopoisk.dev/v1.4/person/awards?personId={idd}"
-    a = requests.get(new_url, headers=headers).json()
-    award = a["docs"][0]["nomination"]["award"]["title"]
-    year = a["docs"][0]["nomination"]["award"]["year"]
-    return f"Награда: {award}\nГод: {year}"
+    try:
+        url = f"https://api.kinopoisk.dev/v1.4/person/search?query={name}"
+        a = requests.get(url, headers=headers).json()
+        idd = a["docs"][0]["id"]
+        new_url = f"https://api.kinopoisk.dev/v1.4/person/awards?personId={idd}"
+        a = requests.get(new_url, headers=headers).json()
+        if not a["docs"]:
+            return f"Нет наград"
+        award = a["docs"][0]["nomination"]["award"]["title"]
+        year = a["docs"][0]["nomination"]["award"]["year"]
+        return f"Награда: {award}\nГод: {year}"
+    except Exception as e:
+        return f"{e}"
 
 
 def get_film(name):
