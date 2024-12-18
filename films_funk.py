@@ -26,6 +26,7 @@ def get_actor(name):
 
 
 def get_film(name):
-    url = f"https://api.kinopoisk.dev/v1.4/movie/search?query={name}"
+    url = f"https://api.kinopoisk.dev/v1.4/movie/search?query={name['name']}"
     a = requests.get(url, headers=headers).json()["docs"][0]["id"]
     return f"https://www.kinopoisk.ru/film/{a}/"
+

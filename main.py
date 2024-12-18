@@ -81,7 +81,6 @@ async def li(message: Message, state: FSMContext):
     await state.update_data(name=message.text)
     data = await state.get_data()
     a = get_film(data)
-    print(a)
     await message.answer(a)
     await state.clear()
 
